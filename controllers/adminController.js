@@ -23,6 +23,7 @@ exports.register = async (req, res) => {
         await admin.save();
 
         const token = jwt.sign({ id: admin._id, role: admin.role }, process.env.JWT_SECRET);
+        await Admin.updateOne({ _id: admin.id }, { tokens: [{ token }] })
         res.status(201).json({ token });
       })
     })
